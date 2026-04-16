@@ -1,16 +1,13 @@
 import cv2
 import matplotlib.pyplot as plt
 
-# List to store coordinates
 coords = []             
 
-# Mouse callback function
 def click_event(event, x, y, flags, param):
     if event == cv2.EVENT_LBUTTONDOWN:
         coords.append((x, y))
         print(f"Clicked: {x}, {y}")
 
-# Load video
 cap = cv2.VideoCapture("WembyShot.mp4")
 
 cv2.namedWindow("Frame")
@@ -23,8 +20,8 @@ while True:
         break
 
     cv2.imshow("Frame", frame)
-    key = cv2.waitKey(0)  # Wait until you click or press a key
-    if key == 27:  # ESC to exit
+    key = cv2.waitKey(0) 
+    if key == 27: 
         break
 
     frame_num += 1
@@ -37,7 +34,6 @@ frames = list(range(len(y_vals)))
 
 import numpy as np
 
-# Fit quadratic: y = ax^2 + bx + c
 coeffs = np.polyfit(frames, y_vals, 2)
 curve = np.poly1d(coeffs)
 
