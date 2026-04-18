@@ -1,82 +1,123 @@
-# Basketball Shot Trajectory Analysis
+🏀 TTD: Basketball Shot Tracking & Trajectory Reconstruction
 
-## Project Overview
-This project tracks the vertical motion of a basketball shot from video footage and models its trajectory using basic physics and data analysis techniques. The goal is to demonstrate how **computer vision**, **data tracking**, and **mathematical modeling** can provide insights into basketball shot mechanics.
+A computer vision system that tracks a basketball in real-time video and reconstructs its flight path using motion modeling and physics-based curve fitting.
 
----
+The system combines YOLO object detection, temporal tracking, and parabolic trajectory fitting to estimate shot arcs from raw gameplay footage.
 
-## Features
-- Manual/semi-manual ball tracking from video frames  
-- Vertical height plotted against frame number to approximate **shot motion over time**  
-- Parabolic curve fitted to track the projectile motion of the basketball  
-- Highlights challenges of **camera angle distortion** and how to correct for it  
+🎯 What This Project Does
 
----
+This project takes in a basketball video and:
 
-## Motivation
-Analyzing basketball shots is a key aspect of sports analytics and biomechanics. Understanding the ball's trajectory can help evaluate:
+Detects the basketball frame-by-frame using a YOLOv8 model
+Tracks the ball’s position over time
+Handles missed detections using short-term motion prediction
+Reconstructs the shot trajectory
+Fits a physics-inspired curve to estimate motion behavior
+Outputs a full shot summary + visual trajectory plot
+🧠 Why I Built This
 
-- Release angle and peak height  
-- Consistency and accuracy of shots  
-- Training interventions for players  
+Basketball shot analysis in real environments is messy — the ball gets occluded, motion blur happens, and detections are inconsistent.
 
-This project is a **first step** toward more advanced AI-driven performance analysis.
+I wanted to build a lightweight system that could still reconstruct a meaningful trajectory from imperfect data, similar to what you’d see in real sports analytics pipelines.
 
----
+⚙️ How It Works
+1. Object Detection
 
-## Methodology
+Uses a pretrained YOLOv8 model to detect the basketball in each frame.
 
-1. **Video Selection**  
-   - Used a screen-recorded video of a player performing a catch-and-shoot jump shot.  
-   - Due to limited camera angles, the shot was recorded diagonally behind the player.
+2. Tracking Logic
 
-2. **Manual Ball Tracking**  
-   - Frames were extracted, and the ball’s vertical position was recorded frame by frame.  
-   - Initial x-y plots were distorted due to the camera angle (S-shaped curve).
+A custom tracking system:
 
-3. **Frame vs Height Plot**  
-   - Vertical position plotted against frame number to isolate the vertical motion.  
-   - This produced a clean parabola representing the ball’s flight path.
+locks onto the first strong detection
+filters unstable detections using distance constraints
+smooths movement using exponential averaging
+3. Occlusion Handling
 
-4. **Parabola Fitting**  
-   - A quadratic function was fitted to the tracked points using `numpy.polyfit`.  
-   - This smooths the curve and models projectile motion under gravity.
+When the ball disappears:
 
----
+short gaps are filled using velocity-based prediction
+tracking resets if confidence is lost for too long
+4. Trajectory Reconstruction
 
-## Python Libraries Used
-- `matplotlib` for plotting  
-- `numpy` for curve fitting  
-- `opencv` (optional) for video frame extraction  
+Once coordinates are collected:
 
----
+a quadratic fit is applied to model motion
+estimated curve represents shot arc behavior
+📊 Example Output
+RUN BALL STARTED
+LOCKED ON BALL
+Frame 0: BALL (688, 181)
+Frame 1: BALL (701, 161)
+Frame 2: BALL (720, 134)
+...
+Frame 7: PREDICTED (820, 20)
+Frame 8: PREDICTED (837, 4)
+...
+FINAL COORD COUNT: 16
 
-## Example Output
+Estimated gravity (relative): 1.56
+🧪 Key Features
+Real-time object detection with YOLOv8
+Lightweight custom tracking system (no heavy tracking libraries)
+Handles occlusion with motion prediction
+Physics-based trajectory fitting
+Clean modular pipeline (detector → physics → visualization)
+Works on real basketball footage (not synthetic data)
+📁 Project Structure
+basketball-shot-tracker/
+│
+├── main.py               # Entry point (demo launcher)
+├── run_ball.py           # Runs full tracking pipeline
+├── detector.py           # Core YOLO tracking logic
+├── physics.py            # Curve fitting + gravity estimation
+├── ttd_utils.py          # Utility functions (court mapping, plotting)
+│
+├── run_court.py          # Court reference mapping tool
+├── run_plot.py           # Court trajectory visualization
+│
+├── data/
+│   ├── test.mp4          # Input basketball footage
+│   ├── ball_coords.npy   # Saved tracking data
+│   └── court_refs.json   # Court calibration points
+▶️ How to Run
+1. Install dependencies
+pip install ultralytics opencv-python numpy matplotlib
+2. Run full demo
+python run_ball.py
+3. (Optional) Map court reference points
+python run_court.py
+4. (Optional) Visualize court trajectory
+python run_plot.py
+📦 Requirements
+Python 3.10+
+OpenCV
+NumPy
+Matplotlib
+Ultralytics YOLOv8
+📈 What I Learned
+How object detection behaves in noisy real-world environments
+Why tracking systems fail (occlusion, duplicate detections, drift)
+How to stabilize motion using simple filtering instead of heavy frameworks
+How physics-based modeling can still emerge from imperfect data
+🚧 Limitations
+Performance depends heavily on video quality
+Struggles with heavy occlusion or multiple balls in frame
+Assumes relatively stable camera perspective
+Prediction is short-term only (not full motion forecasting)
+🔭 Future Improvements
+3D trajectory reconstruction (depth estimation)
+Multi-angle shot fusion
+Real-time overlay visualization on video
+Player-aware filtering (remove false positives from hands/body)
+🧠 Summary
 
-![Ball Height Over Time](./assets/parabola_plot.png)  
-*Parabolic trajectory of the basketball shot (vertical height vs frame number)*
+This project explores how far you can get with a simple but carefully designed pipeline for sports tracking:
 
----
+detection → tracking → prediction → physics modeling
 
-## Insights / Notes
-- **Camera Angle Matters:** Diagonal camera angles distort the raw x-y trajectory. Plotting vertical height against frame number corrects for this.  
-- **Physics in Sports:** Even simple frame-based tracking reveals the expected parabolic motion of a basketball shot.  
-- **Next Steps:** Automate ball detection with computer vision, extract multiple shots, and analyze release angles and shot consistency.
+Even with imperfect inputs, the system reconstructs meaningful shot trajectories from real gameplay footage.
 
----
+📌 Note
 
-## Skills Demonstrated
-- Data collection and manual annotation  
-- Python plotting and analysis  
-- Quadratic curve fitting  
-- Problem-solving around real-world CV limitations  
-
----
-
-## Next Steps / Roadmap
-1. Automate tracking using OpenCV or object detection models  
-2. Compare multiple shots for consistency and biomechanics analysis  
-3. Expand to full court player and ball tracking for advanced analytics  
-4. Create YouTube or GitHub portfolio content explaining the process  
-
----
+This is an experimental computer vision project built for learning and portfolio purposes. It is actively being improved.
