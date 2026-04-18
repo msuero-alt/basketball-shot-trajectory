@@ -59,6 +59,7 @@ FINAL COORD COUNT: 16
 Estimated gravity (relative): 1.56
 
 *Key Features*
+
 Real-time object detection with YOLOv8
 Lightweight custom tracking system (no heavy tracking libraries)
 Handles occlusion with motion prediction
@@ -67,6 +68,7 @@ Clean modular pipeline (detector → physics → visualization)
 Works on real basketball footage (not synthetic data)
 
 *Project Structure*
+
 basketball-shot-tracker/
 │
 ├── main.py               # Entry point (demo launcher)
