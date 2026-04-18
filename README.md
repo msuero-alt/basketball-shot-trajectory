@@ -112,12 +112,16 @@ Why tracking systems fail (occlusion, duplicate detections, drift)
 How to stabilize motion using simple filtering instead of heavy frameworks
 How physics-based modeling can still emerge from imperfect data
 
-*Limitations*
+*Real-World Constraints*
 
-Performance depends heavily on video quality
-Struggles with heavy occlusion or multiple balls in frame
-Assumes relatively stable camera perspective
-Prediction is short-term only (not full motion forecasting)
+This system is designed for real gameplay footage, where:
+
+occlusion occurs frequently
+motion blur affects detection stability
+camera angles are not perfectly aligned
+tracking must tolerate missing frames
+
+Rather than assuming clean lab conditions, the pipeline is built to extract usable signal from imperfect data.
 
 *Future Improvements*
 
