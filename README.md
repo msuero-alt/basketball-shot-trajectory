@@ -45,6 +45,7 @@ Once coordinates are collected: a quadratic fit is applied to model motion
 estimated curve represents shot arc behavior
 
 *Example Output*
+
 RUN BALL STARTED
 LOCKED ON BALL
 Frame 0: BALL (688, 181)
@@ -86,6 +87,7 @@ basketball-shot-tracker/
 │   └── court_refs.json   # Court calibration points
 
 *How to Run*
+
 1. Install dependencies
 pip install ultralytics opencv-python numpy matplotlib
 2. Run full demo
@@ -96,6 +98,7 @@ python run_court.py
 python run_plot.py
 
 *Requirements*
+
 Python 3.10+
 OpenCV
 NumPy
@@ -103,18 +106,21 @@ Matplotlib
 Ultralytics YOLOv8
 
 *What I Learned*
+
 How object detection behaves in noisy real-world environments
 Why tracking systems fail (occlusion, duplicate detections, drift)
 How to stabilize motion using simple filtering instead of heavy frameworks
 How physics-based modeling can still emerge from imperfect data
 
 *Limitations*
+
 Performance depends heavily on video quality
 Struggles with heavy occlusion or multiple balls in frame
 Assumes relatively stable camera perspective
 Prediction is short-term only (not full motion forecasting)
 
 *Future Improvements*
+
 3D trajectory reconstruction (depth estimation)
 Multi-angle shot fusion
 Real-time overlay visualization on video
