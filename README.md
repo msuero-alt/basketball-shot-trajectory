@@ -3,6 +3,7 @@
 A computer vision system that tracks a basketball in real-time video and reconstructs its flight path using motion modeling and physics-based curve fitting.
 
 The system combines YOLO object detection, temporal tracking, and parabolic trajectory fitting to estimate shot arcs from raw gameplay footage.
+
 ---
 *What This Project Does*
 
@@ -14,12 +15,14 @@ Handles missed detections using short-term motion prediction
 Reconstructs the shot trajectory
 Fits a physics-inspired curve to estimate motion behavior
 Outputs a full shot summary + visual trajectory plot
+
 ---
 *Why I Built This*
 
 Basketball shot analysis in real environments is messy — the ball gets occluded, motion blur happens, and detections are inconsistent.
 
 I wanted to build a lightweight system that could still reconstruct a meaningful trajectory from imperfect data, similar to what you’d see in real sports analytics pipelines.
+
 ---
 *How It Works*
 1. Object Detection
@@ -34,6 +37,7 @@ locks onto the first strong detection
 filters unstable detections using distance constraints
 smooths movement using exponential averaging
 3. Occlusion Handling
+
 ---
 When the ball disappears:
 
@@ -43,6 +47,7 @@ tracking resets if confidence is lost for too long
 
 Once coordinates are collected: a quadratic fit is applied to model motion
 estimated curve represents shot arc behavior
+
 ---
 *Example Output*
 
@@ -58,6 +63,7 @@ Frame 8: PREDICTED (837, 4)
 FINAL COORD COUNT: 16
 
 Estimated gravity (relative): 1.56
+
 ---
 *Key Features*
 
@@ -67,6 +73,7 @@ Handles occlusion with motion prediction
 Physics-based trajectory fitting
 Clean modular pipeline (detector → physics → visualization)
 Works on real basketball footage (not synthetic data)
+
 ---
 *Project Structure*
 
@@ -85,6 +92,7 @@ basketball-shot-tracker/
 │   ├── test.mp4          # Input basketball footage
 │   ├── ball_coords.npy   # Saved tracking data
 │   └── court_refs.json   # Court calibration points
+
 ---
 *How to Run*
 
@@ -96,6 +104,7 @@ python run_ball.py
 python run_court.py
 4. (Optional) Visualize court trajectory
 python run_plot.py
+
 ---
 *Requirements*
 
@@ -104,6 +113,7 @@ OpenCV
 NumPy
 Matplotlib
 Ultralytics YOLOv8
+
 ---
 *What I Learned*
 
@@ -111,6 +121,7 @@ How object detection behaves in noisy real-world environments
 Why tracking systems fail (occlusion, duplicate detections, drift)
 How to stabilize motion using simple filtering instead of heavy frameworks
 How physics-based modeling can still emerge from imperfect data
+
 ---
 *Real-World Constraints*
 
@@ -122,6 +133,7 @@ camera angles are not perfectly aligned
 tracking must tolerate missing frames
 
 Rather than assuming clean lab conditions, the pipeline is built to extract usable signal from imperfect data.
+
 ---
 *Future Improvements*
 
@@ -129,6 +141,7 @@ Rather than assuming clean lab conditions, the pipeline is built to extract usab
 Multi-angle shot fusion
 Real-time overlay visualization on video
 Player-aware filtering (remove false positives from hands/body)
+
 ---
 *Summary*
 
@@ -137,6 +150,7 @@ This project explores how far you can get with a simple but carefully designed p
 detection → tracking → prediction → physics modeling
 
 Even with imperfect inputs, the system reconstructs meaningful shot trajectories from real gameplay footage.
+
 ---
 *Note*
 
