@@ -14,6 +14,7 @@ Handles missed detections using short-term motion prediction
 Reconstructs the shot trajectory
 Fits a physics-inspired curve to estimate motion behavior
 Outputs a full shot summary + visual trajectory plot
+
 🧠 Why I Built This
 
 Basketball shot analysis in real environments is messy — the ball gets occluded, motion blur happens, and detections are inconsistent.
